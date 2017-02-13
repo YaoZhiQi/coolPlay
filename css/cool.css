@@ -1,0 +1,361 @@
+/* 
+ *CoolPlay视频播放器
+ * 2016年8月1日 
+ * 627314658@qq.com 
+ * */
+
+@font-face {
+	font-family: 'icomoon';
+	src: url('fonts/icomoon.eot?63s28v');
+	src: url('fonts/icomoon.eot?63s28v#iefix') format('embedded-opentype'), url('fonts/icomoon.ttf?63s28v') format('truetype'), url('fonts/icomoon.woff?63s28v') format('woff'), url('fonts/icomoon.svg?63s28v#icomoon') format('svg');
+	font-weight: normal;
+	font-style: normal;
+}
+
+[class^="icon-"],
+[class*=" icon-"] {
+	/* use !important to prevent issues with browser extensions that change fonts */
+	font-family: 'icomoon' !important;
+	speak: none;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	/* Better Font Rendering =========== */
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+}
+/*一种旋转的策略*/
+@-moz-keyframes spin {
+	0% {
+		-moz-transform: rotate(0deg)
+	}
+	
+	100% {
+		-moz-transform: rotate(359deg)
+	}
+}
+@-webkit-keyframes spin {
+	0% {
+		-webkit-transform: rotate(0deg)
+	}
+	
+	100% {
+		-webkit-transform: rotate(359deg)
+	}
+}
+@-o-keyframes spin {
+	0% {
+		-o-transform: rotate(0deg)
+	}
+	
+	100% {
+		-o-transform: rotate(359deg)
+	}
+}
+@-ms-keyframes spin {
+	0% {
+		-ms-transform: rotate(0deg)
+	}
+	
+	100% {
+		-ms-transform: rotate(359deg)
+	}
+}
+@keyframes spin {
+	0% {
+		transform: rotate(0deg)
+	}
+	
+	100% {
+		transform: rotate(359deg)
+	}
+}
+.icon-c-loading:before {
+  content: "\e983";
+}
+.icon-c-enlarge:before {
+  content: "\e989";
+}
+.icon-c-shrink:before {
+  content: "\e98a";
+}
+.icon-c-play:before {
+  content: "\ea1c";
+}
+.icon-c-pause:before {
+  content: "\ea1d";
+}
+.icon-c-previous:before {
+  content: "\ea23";
+}
+.icon-c-next:before {
+  content: "\ea24";
+}
+.icon-c-voice:before {
+  content: "\ea27";
+}
+.icon-c-mute:before {
+  content: "\ea2a";
+}
+.icon-c-refresh:before {
+  content: "\ea2e";
+}
+// .icon-c-voice:before {
+// 	/*声音*/
+	
+// 	content: "\e900";
+// }
+// .icon-c-mute:before {
+// 	/*静音*/
+	
+// 	content: "\e901";
+// }
+// .icon-c-pause:before {
+// 	/*暂停*/
+	
+// 	content: "\e902";
+// }
+// .icon-c-play:before {
+// 	/*播放*/
+	
+// 	content: "\e903";
+// }
+// .icon-c-loading:before {
+// 	/*加载*/
+	
+// 	content: "\e97a";
+// }
+// .icon-c-enlarge:before {
+// 	/*全屏*/
+	
+// 	content: "\e989";
+// }
+// .icon-c-shrink:before {
+// 	/*缩小*/
+	
+// 	content: "\e98a";
+// }
+// .icon-c-previous:before {
+// 	/*上一首*/
+	
+// 	content: "\ea21";
+// }
+// .icon-c-next:before {
+// 	/*下一首*/
+	
+// 	content: "\ea22";
+// }
+// .icon-c-refresh:before {
+// 	/*重新加载*/
+	
+// 	content: "\ea2e";
+// }
+* {
+	margin: 0;
+	padding: 0;
+}
+body {
+	font-size: 16px;
+	font-family: "微软雅黑";
+}
+
+/*播放器区域*/
+.cool-play {
+	width: 100%;
+	height: 100%;
+	position: relative;
+}
+.cool-play:-webkit-full-screen {
+  width: 100%;
+  height: 100%;
+}
+.cool-play .cool-title {
+	width: 100%;
+	height: 40px;
+	background-color: rgba(130, 129, 129, 0.8);
+	position: relative;
+	line-height: 40px;
+	z-index: 2;
+	color: #ff6600;
+	opacity: 0;
+	transition: opacity 0.8s;
+	-webkit-transition: opacity 0.8s;
+	-moz-transition: opacity 0.8s;
+	-ms-transition: opacity 0.8s;
+}
+.cool-play .cool-title span {
+	padding-left: 20px;
+}
+.cool-play .cool-video .icon-c-loading {
+	color: #FF6600;
+	top: 50%;
+	left: 50%;
+	position: absolute;
+	font-size: 40px;
+	margin-left: -20px;
+	margin-top: -20px;
+	-moz-animation: spin 2s infinite linear;
+	-o-animation: spin 2s infinite linear;
+	-webkit-animation: spin 2s infinite linear;
+	animation: spin 2s infinite linear;
+	display: none;
+}
+.cool-play .video {
+	width: 100%;
+	height: 100%;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background-color: #000;
+}
+
+/*播放器按钮*/
+.cool-module {
+	width: 100%;
+	background-color: rgba(130, 129, 129, 0.8);
+	bottom: 0px;
+	left: 0px;
+	position: absolute;
+	opacity: 1;
+	/*方便调试，先定义为1，正常情况为0*/
+	
+	color: #fff;
+	transition: opacity 0.8s;
+	-webkit-transition: opacity 0.8s;
+	-moz-transition: opacity 0.8s;
+	-ms-transition: opacity 0.8s;
+}
+.cool-module a {
+	cursor: pointer;
+}
+.cool-btn {
+	height: 38px;
+}
+.cool-play:hover .cool-title {
+	opacity: 1;
+}
+.cool-play:hover .cool-module {
+	opacity: 1;
+}
+.cool-btn .btn a {
+	font-size: 24px;
+	line-height: 38px;
+	padding-left: 10px;
+	padding-right: 10px;
+	display: inline-block;
+}
+.cool-btn .cool-btn-left {
+	display: inline-block;
+	padding-left: 10px;
+	float: left;
+}
+.cool-btn .cool-btn-center {
+	display: inline-block;
+	line-height: 38px;
+	float: left;
+	font-size: 12px;
+	color: #FFFFFF;
+	margin-left: 20px;
+}
+.cool-btn .cool-btn-right {
+	display: inline-block;
+	float: right;
+	padding-right: 10px;
+}
+.cool-btn a:hover {
+	color: #ff5500;
+}
+
+/*进度条*/
+.cool-module .cool-progress {
+	width: 100%;
+	height: 4px;
+	background-color: #fff;
+	display: block;
+	position: relative;
+}
+.cool-module .cool-progress .cool-played {
+	background-color: #ff6600;
+	height: 100%;
+	width: 0%;
+	position: absolute;
+	/*transition: width .3s;
+    -webkit-transition: width .3s;
+    -moz-transition: width .3s;
+    -ms-transition: width .3s;*/
+}
+.cool-module .cool-progress .cool-drag {
+	height: 8px;
+	width: 8px;
+	border-radius: 100%;
+	background-color: #fff;
+	top: -2px;
+	position: relative;
+	margin-left: 0%;
+	position: absolute;
+	display: none;
+}
+.voice{
+	position: relative;
+}
+.voice:hover .c-voice{
+	display: block;
+}
+.c-voice{
+  position: absolute;
+  width: 40px;
+  height: 120px;
+  background-color: rgba(130, 129, 129, 0.8);
+  bottom: 38px;
+  left: 0;
+  display: none;
+}
+.c-voice-triangle{
+	  position: absolute;
+    bottom: -6px;
+    left: 12px;
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-top: 6px solid rgba(130, 129, 129, 0.8);
+}
+.voice-bar{
+  height: 100px;
+  width: 2px;
+  background-color: #000;
+  position: absolute;
+  left: 50%;
+  margin-left: -1px;
+  bottom: 10px;
+}
+.voice-bared{
+  height: 80px;
+  width: 2px;
+  background-color: #f50;
+  position: absolute;
+  left: 50%;
+  margin-left: -1px;
+  bottom: 0;
+}
+.voice-dot{
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  background-color: #fff;
+  border-radius: 100%;
+  left: -4px;
+  top: -5px;
+}
+.voice-mask{
+  height: 100px;
+  width: 20px;
+  background-color: red;
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  margin-left: -10px;
+  opacity: 0;
+}
